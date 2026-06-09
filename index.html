@@ -4,39 +4,48 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ReThread — Sustainable Fashion</title>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet"/>
   <style>
-    :root {
-      --linen:    #f7f3ec;
-      --warm:     #f0ebe0;
-      --tan:      #e0d8c8;
-      --brown:    #6b4f3a;
-      --moss:     #4a6741;
-      --sage:     #7a9e6e;
-      --light-sage: #c8dbc2;
-      --rust:     #b05e3a;
-      --text:     #2e2416;
-      --muted:    #7a6a58;
-      --cream:    #fdf9f3;
+    :root{
+      --linen:#f7f3ec;--warm:#f0ebe0;--tan:#e0d8c8;
+      --brown:#6b4f3a;--moss:#4a6741;--sage:#7a9e6e;
+      --light-sage:#c8dbc2;--rust:#b05e3a;
+      --text:#2e2416;--muted:#7a6a58;--cream:#fdf9f3;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
     body{font-family:'Nunito',sans-serif;background:var(--linen);color:var(--text);overflow-x:hidden}
 
-    /* NAV */
+    /* ── NAV ── */
     nav{
-      position:fixed;top:0;left:0;right:0;z-index:100;
+      position:fixed;top:0;left:0;right:0;z-index:200;
       display:flex;align-items:center;justify-content:space-between;
       padding:1rem 5%;
-      background:rgba(247,243,236,0.95);
+      background:rgba(247,243,236,.96);
       backdrop-filter:blur(8px);
       border-bottom:2px solid var(--tan);
     }
-    .nav-logo{font-family:'Lora',serif;font-size:1.5rem;font-weight:600;color:var(--brown)}
+    .nav-logo{font-family:'Lora',serif;font-size:1.5rem;font-weight:600;color:var(--brown);cursor:pointer}
     .nav-logo span{color:var(--moss)}
-    .nav-links{display:flex;gap:2rem;list-style:none}
-    .nav-links a{text-decoration:none;font-size:.85rem;font-weight:600;color:var(--muted);letter-spacing:.04em;transition:color .2s}
-    .nav-links a:hover{color:var(--moss)}
+    .nav-links{display:flex;gap:1.8rem;list-style:none;align-items:center}
+    .nav-links a{text-decoration:none;font-size:.85rem;font-weight:600;color:var(--muted);transition:color .2s}
+    .nav-links a:hover,.nav-links a.active{color:var(--moss)}
+    .nav-right{display:flex;align-items:center;gap:.8rem}
+    .basket-btn{
+      position:relative;background:var(--warm);border:2px solid var(--tan);
+      border-radius:999px;padding:.5rem 1rem;
+      font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:600;
+      color:var(--brown);cursor:pointer;transition:all .2s;
+      display:flex;align-items:center;gap:.4rem;
+    }
+    .basket-btn:hover{border-color:var(--sage);color:var(--moss)}
+    .basket-count{
+      background:var(--moss);color:#fff;
+      border-radius:999px;font-size:.65rem;font-weight:700;
+      min-width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;
+      padding:0 4px;
+    }
+    .basket-count.hidden{display:none}
     .nav-cta{
       background:var(--moss);color:#fff;border:none;
       padding:.6rem 1.4rem;border-radius:999px;
@@ -45,285 +54,274 @@
     }
     .nav-cta:hover{background:var(--brown);transform:translateY(-1px)}
 
-    /* HERO */
+    /* ── PAGES ── */
+    .page{display:none;min-height:100vh;padding-top:70px}
+    .page.active{display:block}
+
+    /* ── HERO ── */
     .hero{
-      min-height:100vh;
+      min-height:calc(100vh - 70px);
       display:flex;align-items:center;
-      padding:7rem 5% 4rem;
+      padding:4rem 5%;
       background:var(--cream);
       position:relative;overflow:hidden;
     }
-    .hero-bg-circle{
-      position:absolute;right:-120px;top:50%;transform:translateY(-50%);
-      width:580px;height:580px;border-radius:50%;
-      background:var(--light-sage);opacity:.35;
-    }
-    .hero-bg-circle2{
-      position:absolute;left:-80px;bottom:-60px;
-      width:320px;height:320px;border-radius:50%;
-      background:var(--tan);opacity:.5;
-    }
-    .hero-content{
-      position:relative;z-index:1;
-      max-width:680px;
-    }
-    .hero-badge{
-      display:inline-flex;align-items:center;gap:.5rem;
-      background:var(--light-sage);color:var(--moss);
-      border-radius:999px;padding:.4rem 1.1rem;
-      font-size:.78rem;font-weight:600;letter-spacing:.06em;
-      margin-bottom:1.8rem;
-    }
-    .hero-badge::before{content:'🌱';font-size:1rem}
-    .hero h1{
-      font-family:'Lora',serif;
-      font-size:clamp(2.6rem,5vw,4.2rem);
-      font-weight:600;line-height:1.15;
-      color:var(--text);margin-bottom:1.2rem;
-    }
+    .hero-bg-circle{position:absolute;right:-120px;top:50%;transform:translateY(-50%);width:580px;height:580px;border-radius:50%;background:var(--light-sage);opacity:.35}
+    .hero-bg-circle2{position:absolute;left:-80px;bottom:-60px;width:320px;height:320px;border-radius:50%;background:var(--tan);opacity:.5}
+    .hero-content{position:relative;z-index:1;max-width:680px}
+    .hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--light-sage);color:var(--moss);border-radius:999px;padding:.4rem 1.1rem;font-size:.78rem;font-weight:600;margin-bottom:1.8rem}
+    .hero h1{font-family:'Lora',serif;font-size:clamp(2.6rem,5vw,4.2rem);font-weight:600;line-height:1.15;color:var(--text);margin-bottom:1.2rem}
     .hero h1 em{font-style:italic;color:var(--moss)}
-    .hero-sub{
-      font-size:1.05rem;font-weight:300;line-height:1.85;
-      color:var(--muted);max-width:520px;margin-bottom:2.5rem;
-    }
+    .hero-sub{font-size:1.05rem;font-weight:300;line-height:1.85;color:var(--muted);max-width:520px;margin-bottom:2.5rem}
     .hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
-    .btn-moss{
-      background:var(--moss);color:#fff;border:none;
-      padding:.85rem 2rem;border-radius:999px;
-      font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:600;
-      cursor:pointer;transition:background .25s,transform .2s;text-decoration:none;
-    }
+    .btn-moss{background:var(--moss);color:#fff;border:none;padding:.85rem 2rem;border-radius:999px;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:background .25s,transform .2s;text-decoration:none;display:inline-block}
     .btn-moss:hover{background:var(--brown);transform:translateY(-2px)}
-    .btn-outline{
-      background:transparent;color:var(--brown);
-      border:2px solid var(--brown);
-      padding:.85rem 2rem;border-radius:999px;
-      font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:600;
-      cursor:pointer;transition:all .25s;text-decoration:none;
-    }
+    .btn-outline{background:transparent;color:var(--brown);border:2px solid var(--brown);padding:.85rem 2rem;border-radius:999px;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .25s;text-decoration:none;display:inline-block}
     .btn-outline:hover{background:var(--brown);color:#fff}
-    .hero-stats{
-      display:flex;gap:3rem;margin-top:3rem;
-      padding-top:2rem;border-top:1px dashed var(--tan);
-    }
-    .h-stat{}
-    .h-stat .n{
-      font-family:'Lora',serif;font-size:2rem;font-weight:600;
-      color:var(--brown);display:block;
-    }
+    .hero-stats{display:flex;gap:3rem;margin-top:3rem;padding-top:2rem;border-top:1px dashed var(--tan)}
+    .h-stat .n{font-family:'Lora',serif;font-size:2rem;font-weight:600;color:var(--brown);display:block}
     .h-stat .l{font-size:.78rem;font-weight:400;color:var(--muted)}
 
-    /* SECTION BASE */
-    section{padding:6rem 5%}
-    .sec-label{
-      font-size:.72rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
-      color:var(--rust);margin-bottom:.8rem;
-      display:flex;align-items:center;gap:.6rem;
-    }
+    /* ── SECTION SHARED ── */
+    section{padding:5rem 5%}
+    .sec-label{font-size:.72rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--rust);margin-bottom:.8rem;display:flex;align-items:center;gap:.6rem}
     .sec-label::before{content:'';display:inline-block;width:24px;height:2px;background:var(--rust);border-radius:1px}
-    .sec-title{
-      font-family:'Lora',serif;font-size:clamp(1.8rem,3vw,2.8rem);
-      font-weight:600;line-height:1.25;color:var(--text);margin-bottom:1.2rem;
-    }
+    .sec-title{font-family:'Lora',serif;font-size:clamp(1.8rem,3vw,2.8rem);font-weight:600;line-height:1.25;color:var(--text);margin-bottom:1.2rem}
     .sec-title em{font-style:italic;color:var(--moss)}
     .sec-body{font-size:.97rem;font-weight:300;line-height:1.9;color:var(--muted)}
 
-    /* ABOUT */
-    #about{
-      background:var(--warm);
-      display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;
-    }
-    .about-illustration{
-      background:var(--linen);
-      border-radius:24px;
-      border:2px solid var(--tan);
-      padding:3rem 2rem;
-      text-align:center;
-      position:relative;overflow:hidden;
-    }
-    .about-illustration::before{
-      content:'';position:absolute;top:-40px;right:-40px;
-      width:160px;height:160px;border-radius:50%;
-      background:var(--light-sage);opacity:.4;
-    }
+    /* ── ABOUT ── */
+    #about{background:var(--warm);display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+    .about-illustration{background:var(--linen);border-radius:24px;border:2px solid var(--tan);padding:3rem 2rem;text-align:center;position:relative;overflow:hidden}
+    .about-illustration::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:var(--light-sage);opacity:.4}
     .about-illo-svg{width:100%;max-width:220px;margin:0 auto 1.5rem;display:block}
-    .about-illo-caption{
-      font-family:'Lora',serif;font-style:italic;
-      font-size:1rem;color:var(--muted);line-height:1.6;
-    }
-    .pill-row{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:2rem}
-    .pill{
-      background:var(--light-sage);color:var(--moss);
-      border-radius:999px;padding:.35rem .9rem;font-size:.76rem;font-weight:600;
-    }
+    .about-illo-caption{font-family:'Lora',serif;font-style:italic;font-size:1rem;color:var(--muted);line-height:1.6}
+    .pill-row{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:2rem;justify-content:center}
+    .pill{background:var(--light-sage);color:var(--moss);border-radius:999px;padding:.35rem .9rem;font-size:.76rem;font-weight:600}
 
-    /* STATS ROW */
-    .stats-row{
-      background:var(--moss);
-      display:grid;grid-template-columns:repeat(4,1fr);
-    }
-    .s-tile{
-      padding:2.5rem 1.5rem;text-align:center;
-      border-right:1px solid rgba(255,255,255,.15);
-      transition:background .3s;
-    }
+    /* ── STATS ROW ── */
+    .stats-row{background:var(--moss);display:grid;grid-template-columns:repeat(4,1fr)}
+    .s-tile{padding:2.5rem 1.5rem;text-align:center;border-right:1px solid rgba(255,255,255,.15);transition:background .3s}
     .s-tile:last-child{border-right:none}
     .s-tile:hover{background:rgba(255,255,255,.07)}
-    .s-tile .big{
-      font-family:'Lora',serif;font-size:2.6rem;font-weight:600;
-      color:#fff;display:block;
-    }
+    .s-tile .big{font-family:'Lora',serif;font-size:2.6rem;font-weight:600;color:#fff;display:block}
     .s-tile .lbl{font-size:.73rem;font-weight:400;color:rgba(255,255,255,.65);letter-spacing:.08em;margin-top:.3rem}
 
-    /* HOW IT WORKS */
+    /* ── HOW IT WORKS ── */
     #how{background:var(--cream)}
     .how-top{max-width:600px;margin:0 auto 4rem;text-align:center}
     .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
-    .step-card{
-      background:var(--warm);
-      border:2px solid var(--tan);border-radius:20px;
-      padding:2rem 1.5rem;text-align:center;
-      transition:transform .3s,box-shadow .3s,border-color .3s;
-      position:relative;
-    }
-    .step-card:hover{
-      transform:translateY(-6px);
-      box-shadow:0 12px 32px rgba(106,79,58,.1);
-      border-color:var(--sage);
-    }
-    .step-num{
-      position:absolute;top:-14px;left:50%;transform:translateX(-50%);
-      background:var(--moss);color:#fff;
-      width:28px;height:28px;border-radius:50%;
-      font-size:.78rem;font-weight:700;
-      display:flex;align-items:center;justify-content:center;
-    }
-    .step-icon{font-size:2.2rem;margin:0.5rem 0 1rem}
-    .step-card h3{
-      font-family:'Lora',serif;font-size:1.05rem;font-weight:600;
-      color:var(--text);margin-bottom:.6rem;
-    }
+    .step-card{background:var(--warm);border:2px solid var(--tan);border-radius:20px;padding:2rem 1.5rem;text-align:center;transition:transform .3s,box-shadow .3s,border-color .3s;position:relative;cursor:pointer}
+    .step-card:hover{transform:translateY(-6px);box-shadow:0 12px 32px rgba(106,79,58,.1);border-color:var(--sage)}
+    .step-card.highlight{border-color:var(--moss);background:var(--light-sage)}
+    .step-num{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--moss);color:#fff;width:28px;height:28px;border-radius:50%;font-size:.78rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+    .step-icon{font-size:2.2rem;margin:.5rem 0 1rem}
+    .step-card h3{font-family:'Lora',serif;font-size:1.05rem;font-weight:600;color:var(--text);margin-bottom:.6rem}
     .step-card p{font-size:.85rem;font-weight:300;line-height:1.75;color:var(--muted)}
 
-    /* REWARD */
-    #reward{
-      background:var(--warm);
+    /* ── DONATE PAGE ── */
+    #page-donate{background:var(--cream)}
+    .donate-layout{display:grid;grid-template-columns:1fr 1fr;gap:4rem;max-width:1100px;margin:0 auto;padding:4rem 5%}
+    .donate-panel{background:var(--warm);border:2px solid var(--tan);border-radius:24px;padding:2.5rem;height:fit-content}
+    .donate-panel h2{font-family:'Lora',serif;font-size:1.5rem;font-weight:600;color:var(--text);margin-bottom:.5rem}
+    .donate-panel .sub{font-size:.88rem;color:var(--muted);margin-bottom:2rem;font-weight:300}
+
+    /* Camera area */
+    .camera-area{
+      width:100%;aspect-ratio:4/3;
+      background:var(--linen);border:2px dashed var(--tan);border-radius:16px;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:.8rem;cursor:pointer;transition:border-color .3s,background .3s;
+      position:relative;overflow:hidden;
+      margin-bottom:1.2rem;
     }
-    .reward-wrap{
-      display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;
-      max-width:1100px;margin:0 auto;
+    .camera-area:hover{border-color:var(--sage);background:var(--cream)}
+    .camera-area.has-image{border-style:solid;border-color:var(--sage)}
+    .camera-area video,.camera-area canvas,.camera-area img.preview{
+      position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:14px;
     }
-    /* Token card */
-    .token-card{
-      background:var(--cream);
-      border:2px solid var(--tan);border-radius:24px;
-      padding:2.5rem;
-      box-shadow:0 6px 30px rgba(0,0,0,.06);
+    .camera-area .cam-hint{font-size:.82rem;color:var(--muted);font-weight:400;text-align:center;z-index:1}
+    .camera-area .cam-icon{font-size:2.5rem;z-index:1}
+    .camera-area .cam-overlay{
+      position:absolute;inset:0;background:rgba(0,0,0,.35);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:.5rem;color:#fff;font-size:.88rem;font-weight:600;
+      border-radius:14px;opacity:0;transition:opacity .2s;z-index:2;
     }
-    .tc-header{
-      display:flex;align-items:center;justify-content:space-between;
-      margin-bottom:1.8rem;
+    .camera-area:hover .cam-overlay{opacity:1}
+
+    .cam-controls{display:flex;gap:.7rem;margin-bottom:1.5rem;flex-wrap:wrap}
+    .cam-btn{
+      flex:1;background:var(--linen);border:2px solid var(--tan);
+      border-radius:999px;padding:.6rem 1rem;
+      font-family:'Nunito',sans-serif;font-size:.8rem;font-weight:600;
+      color:var(--brown);cursor:pointer;transition:all .2s;
+      display:flex;align-items:center;justify-content:center;gap:.4rem;
     }
+    .cam-btn:hover{border-color:var(--sage);color:var(--moss)}
+    .cam-btn.active{background:var(--moss);color:#fff;border-color:var(--moss)}
+    #fileInput{display:none}
+
+    .item-form{display:flex;flex-direction:column;gap:.8rem}
+    .form-row{display:flex;gap:.8rem}
+    .form-field{display:flex;flex-direction:column;gap:.3rem;flex:1}
+    .form-field label{font-size:.75rem;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+    .form-field input,.form-field select,.form-field textarea{
+      background:var(--cream);border:2px solid var(--tan);border-radius:12px;
+      padding:.6rem .9rem;font-family:'Nunito',sans-serif;font-size:.9rem;
+      color:var(--text);transition:border-color .2s;resize:none;
+    }
+    .form-field input:focus,.form-field select:focus,.form-field textarea:focus{
+      outline:none;border-color:var(--sage);
+    }
+    .add-item-btn{
+      background:var(--moss);color:#fff;border:none;
+      border-radius:999px;padding:.9rem;
+      font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:700;
+      cursor:pointer;transition:background .25s,transform .2s;margin-top:.5rem;
+    }
+    .add-item-btn:hover{background:var(--brown);transform:translateY(-1px)}
+    .add-item-btn:disabled{background:var(--tan);color:var(--muted);cursor:not-allowed;transform:none}
+
+    /* Basket */
+    .basket-panel h2{font-family:'Lora',serif;font-size:1.5rem;font-weight:600;color:var(--text);margin-bottom:.5rem}
+    .basket-panel .sub{font-size:.88rem;color:var(--muted);margin-bottom:1.5rem;font-weight:300}
+    .basket-empty{
+      text-align:center;padding:3rem 1rem;
+      color:var(--muted);font-size:.9rem;font-weight:300;
+    }
+    .basket-empty .empty-icon{font-size:3rem;display:block;margin-bottom:.8rem;opacity:.5}
+    .basket-list{display:flex;flex-direction:column;gap:.8rem;margin-bottom:1.5rem}
+    .basket-item{
+      background:var(--cream);border:1px solid var(--tan);border-radius:14px;
+      padding:.9rem 1rem;display:flex;gap:1rem;align-items:center;
+      animation:slideIn .3s ease;
+    }
+    @keyframes slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+    .bi-thumb{
+      width:52px;height:52px;border-radius:10px;object-fit:cover;
+      background:var(--tan);flex-shrink:0;
+      display:flex;align-items:center;justify-content:center;font-size:1.4rem;
+    }
+    .bi-thumb img{width:100%;height:100%;object-fit:cover;border-radius:10px}
+    .bi-info{flex:1;min-width:0}
+    .bi-name{font-weight:600;font-size:.9rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .bi-meta{font-size:.76rem;color:var(--muted);font-weight:300;margin-top:.15rem}
+    .bi-remove{background:none;border:none;cursor:pointer;color:var(--muted);font-size:1.1rem;padding:.2rem;transition:color .2s}
+    .bi-remove:hover{color:var(--rust)}
+    .basket-summary{
+      background:var(--linen);border:2px solid var(--tan);border-radius:16px;
+      padding:1.2rem;margin-bottom:1.2rem;
+    }
+    .bs-row{display:flex;justify-content:space-between;font-size:.88rem;margin-bottom:.5rem}
+    .bs-row:last-child{margin-bottom:0;font-weight:700;color:var(--moss)}
+    .bs-row span:first-child{color:var(--muted);font-weight:300}
+    .submit-btn{
+      width:100%;background:var(--moss);color:#fff;border:none;
+      border-radius:999px;padding:1rem;
+      font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:700;
+      cursor:pointer;transition:background .25s,transform .2s;
+    }
+    .submit-btn:hover{background:var(--brown);transform:translateY(-1px)}
+    .submit-btn:disabled{background:var(--tan);color:var(--muted);cursor:not-allowed;transform:none}
+
+    /* ── SUCCESS TOAST ── */
+    .toast{
+      position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);
+      background:var(--moss);color:#fff;
+      border-radius:999px;padding:.8rem 1.8rem;
+      font-size:.88rem;font-weight:600;
+      box-shadow:0 8px 24px rgba(0,0,0,.15);
+      z-index:999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);
+      white-space:nowrap;
+    }
+    .toast.show{transform:translateX(-50%) translateY(0)}
+
+    /* ── REWARD ── */
+    #reward{background:var(--warm)}
+    .reward-wrap{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;max-width:1100px;margin:0 auto}
+    .token-card{background:var(--cream);border:2px solid var(--tan);border-radius:24px;padding:2.5rem;box-shadow:0 6px 30px rgba(0,0,0,.06)}
+    .tc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.8rem}
     .tc-title{font-family:'Lora',serif;font-size:1.2rem;font-weight:600;color:var(--brown)}
     .tc-sub{font-size:.76rem;color:var(--muted);margin-top:.15rem}
     .tc-leaf{font-size:1.8rem}
     .stamps{display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem;margin-bottom:1.5rem}
-    .stamp{
-      aspect-ratio:1;border-radius:50%;
-      border:2px dashed var(--tan);
-      display:flex;align-items:center;justify-content:center;
-      font-size:1.1rem;cursor:pointer;
-      transition:all .3s cubic-bezier(.34,1.56,.64,1);
-      background:var(--linen);
-    }
-    .stamp:hover:not(.filled){border-color:var(--sage);transform:scale(1.08)}
-    .stamp.filled{
-      background:var(--light-sage);border-color:var(--sage);border-style:solid;
-      animation:stampit .35s cubic-bezier(.34,1.56,.64,1);
-    }
+    .stamp{aspect-ratio:1;border-radius:50%;border:2px dashed var(--tan);display:flex;align-items:center;justify-content:center;font-size:1.1rem;cursor:default;transition:all .3s cubic-bezier(.34,1.56,.64,1);background:var(--linen)}
+    .stamp.filled{background:var(--light-sage);border-color:var(--sage);border-style:solid;animation:stampit .35s cubic-bezier(.34,1.56,.64,1)}
     @keyframes stampit{0%{transform:scale(.5) rotate(-15deg);opacity:0}100%{transform:scale(1);opacity:1}}
     .prog-row{display:flex;align-items:center;gap:.8rem;margin-bottom:1.5rem}
     .prog-bar{flex:1;height:6px;background:var(--tan);border-radius:3px;overflow:hidden}
     .prog-fill{height:100%;background:var(--moss);border-radius:3px;transition:width .5s ease}
     .prog-label{font-size:.78rem;color:var(--muted);white-space:nowrap}
-    .reward-msg{
-      display:none;
-      background:var(--light-sage);border:1px solid var(--sage);
-      border-radius:12px;padding:1rem;text-align:center;
-      font-family:'Lora',serif;font-style:italic;
-      color:var(--moss);font-size:.95rem;margin-bottom:1rem;
-    }
+    .reward-msg{display:none;background:var(--light-sage);border:1px solid var(--sage);border-radius:12px;padding:1rem;text-align:center;font-family:'Lora',serif;font-style:italic;color:var(--moss);font-size:.95rem;margin-bottom:1rem}
     .reward-msg.show{display:block;animation:fadeUp .4s ease}
-    .tc-btn{
-      width:100%;background:var(--moss);color:#fff;border:none;
-      border-radius:999px;padding:.9rem;
-      font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:600;
-      cursor:pointer;transition:background .25s,transform .2s;
-    }
-    .tc-btn:hover{background:var(--brown);transform:translateY(-1px)}
+    .tc-donate-btn{width:100%;background:var(--moss);color:#fff;border:none;border-radius:999px;padding:.9rem;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:background .25s,transform .2s}
+    .tc-donate-btn:hover{background:var(--brown);transform:translateY(-1px)}
 
-    /* WHY */
+    /* ── WHY ── */
     #why{background:var(--cream)}
     .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3.5rem}
-    .why-card{
-      background:var(--warm);border:2px solid var(--tan);border-radius:20px;
-      padding:2rem 1.8rem;
-      transition:transform .3s,border-color .3s;
-    }
+    .why-card{background:var(--warm);border:2px solid var(--tan);border-radius:20px;padding:2rem 1.8rem;transition:transform .3s,border-color .3s}
     .why-card:hover{transform:translateY(-4px);border-color:var(--sage)}
     .why-icon{font-size:1.8rem;margin-bottom:1rem;display:block}
     .why-card h3{font-family:'Lora',serif;font-size:1.05rem;font-weight:600;color:var(--text);margin-bottom:.5rem}
     .why-card p{font-size:.87rem;font-weight:300;line-height:1.75;color:var(--muted)}
 
-    /* VISION */
-    #vision{
-      background:var(--moss);
-      text-align:center;position:relative;overflow:hidden;
-    }
-    #vision::before{
-      content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);
-      width:500px;height:500px;border-radius:50%;
-      background:rgba(255,255,255,.04);
-    }
+    /* ── VISION ── */
+    #vision{background:var(--moss);text-align:center;position:relative;overflow:hidden}
+    #vision::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:500px;height:500px;border-radius:50%;background:rgba(255,255,255,.04)}
     .vision-inner{max-width:760px;margin:0 auto;position:relative;z-index:1}
-    .vis-quote{
-      font-family:'Lora',serif;font-size:clamp(1.5rem,2.8vw,2.4rem);
-      font-style:italic;font-weight:400;
-      color:#fff;line-height:1.55;margin:1.5rem 0 2.5rem;
-    }
+    .vis-quote{font-family:'Lora',serif;font-size:clamp(1.5rem,2.8vw,2.4rem);font-style:italic;font-weight:400;color:#fff;line-height:1.55;margin:1.5rem 0 2.5rem}
     .vis-body{font-size:.96rem;font-weight:300;line-height:1.9;color:rgba(255,255,255,.7);margin-bottom:1.3rem}
     .vis-divider{display:flex;align-items:center;gap:1rem;justify-content:center;margin:2.5rem 0}
     .vis-divider::before,.vis-divider::after{content:'';flex:1;max-width:80px;height:1px;background:rgba(255,255,255,.2)}
-    .vis-divider span{color:rgba(255,255,255,.4);font-size:1rem}
-    .btn-white{
-      background:#fff;color:var(--moss);border:none;
-      padding:.9rem 2.2rem;border-radius:999px;
-      font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:600;
-      cursor:pointer;transition:background .25s;text-decoration:none;display:inline-block;
-    }
+    .vis-divider span{color:rgba(255,255,255,.4)}
+    .btn-white{background:#fff;color:var(--moss);border:none;padding:.9rem 2.2rem;border-radius:999px;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:background .25s;text-decoration:none;display:inline-block}
     .btn-white:hover{background:var(--linen)}
 
-    /* FOOTER */
+    /* ── FOOTER ── */
     footer{background:var(--text);padding:4rem 5% 2rem}
     .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:4rem;margin-bottom:3rem}
-    .f-logo{font-family:'Lora',serif;font-size:1.4rem;font-weight:600;color:#fff;margin-bottom:.8rem}
+    .f-logo{font-family:'Lora',serif;font-size:1.4rem;font-weight:600;color:#fff;margin-bottom:.8rem;cursor:pointer}
     .f-logo span{color:var(--light-sage)}
     .f-tagline{font-size:.88rem;font-weight:300;line-height:1.75;color:rgba(255,255,255,.4);max-width:260px}
     .f-col h5{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);font-weight:600;margin-bottom:1rem}
     .f-col ul{list-style:none;display:flex;flex-direction:column;gap:.55rem}
-    .f-col a{text-decoration:none;font-size:.88rem;font-weight:300;color:rgba(255,255,255,.45);transition:color .2s}
+    .f-col a{text-decoration:none;font-size:.88rem;font-weight:300;color:rgba(255,255,255,.45);transition:color .2s;cursor:pointer}
     .f-col a:hover{color:var(--light-sage)}
     .footer-bottom{border-top:1px solid rgba(255,255,255,.07);padding-top:1.5rem;display:flex;justify-content:space-between;font-size:.75rem;color:rgba(255,255,255,.2)}
 
-    /* ANIM */
+    /* ── CAMERA LIVE ── */
+    #cameraModal{
+      display:none;position:fixed;inset:0;z-index:500;
+      background:rgba(0,0,0,.7);
+      align-items:center;justify-content:center;
+    }
+    #cameraModal.open{display:flex}
+    .cam-modal-inner{
+      background:var(--cream);border-radius:24px;
+      padding:2rem;width:min(500px,92vw);
+      display:flex;flex-direction:column;gap:1rem;
+    }
+    .cam-modal-inner h3{font-family:'Lora',serif;font-size:1.2rem;font-weight:600;color:var(--text)}
+    #liveVideo{width:100%;border-radius:14px;background:#000;aspect-ratio:4/3;object-fit:cover}
+    .cam-modal-btns{display:flex;gap:.8rem}
+    .snap-btn{flex:1;background:var(--moss);color:#fff;border:none;border-radius:999px;padding:.8rem;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:background .25s}
+    .snap-btn:hover{background:var(--brown)}
+    .cancel-btn{background:var(--warm);color:var(--brown);border:2px solid var(--tan);border-radius:999px;padding:.8rem 1.4rem;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .2s}
+    .cancel-btn:hover{border-color:var(--rust);color:var(--rust)}
+
+    /* ── REVEAL ── */
     .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
-    .reveal.visible{opacity:1;transform:translateY(0)}
+    .reveal.visible{opacity:1;transform:none}
     @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
+    /* ── RESPONSIVE ── */
     @media(max-width:900px){
       #about{grid-template-columns:1fr}
       .stats-row{grid-template-columns:1fr 1fr}
       .steps{grid-template-columns:1fr 1fr}
+      .donate-layout{grid-template-columns:1fr;gap:2rem}
       .reward-wrap{grid-template-columns:1fr;gap:3rem}
       .why-grid{grid-template-columns:1fr 1fr}
       .footer-grid{grid-template-columns:1fr;gap:2.5rem}
@@ -332,286 +330,621 @@
       .nav-links{display:none}
       .steps{grid-template-columns:1fr}
       .why-grid{grid-template-columns:1fr}
-      .stats-row{grid-template-columns:1fr 1fr}
       .hero-stats{flex-wrap:wrap;gap:1.5rem}
     }
   </style>
 </head>
 <body>
 
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">Re<span>Thread</span></div>
+  <div class="nav-logo" onclick="showPage('home')">Re<span>Thread</span></div>
   <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#how">How It Works</a></li>
-    <li><a href="#reward">Rewards</a></li>
-    <li><a href="#why">Why Us</a></li>
-    <li><a href="#vision">Vision</a></li>
+    <li><a href="#" onclick="showPage('home');return false" id="nl-home">Home</a></li>
+    <li><a href="#" onclick="goTo('home','about');return false">About</a></li>
+    <li><a href="#" onclick="goTo('home','how');return false">How It Works</a></li>
+    <li><a href="#" onclick="showPage('donate');return false" id="nl-donate">Donate</a></li>
+    <li><a href="#" onclick="goTo('home','reward');return false">My Card</a></li>
   </ul>
-  <button class="nav-cta" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">Donate Now</button>
+  <div class="nav-right">
+    <button class="basket-btn" onclick="showPage('donate');scrollToBasket()" id="basketBtn">
+      🧺 Basket <span class="basket-count hidden" id="basketCount">0</span>
+    </button>
+    <button class="nav-cta" onclick="showPage('donate')">Donate Now</button>
+  </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero" id="home">
-  <div class="hero-bg-circle"></div>
-  <div class="hero-bg-circle2"></div>
-  <div class="hero-content">
-    <div class="hero-badge">Sustainable Fashion Movement</div>
-    <h1>Fashion that<br/>gives back to<br/><em>the Earth</em></h1>
-    <p class="hero-sub">We transform unwanted clothing into unique, high-quality pieces — reducing textile waste and building a circular fashion economy, one garment at a time.</p>
-    <div class="hero-btns">
-      <a href="#how" class="btn-moss">Start Donating</a>
-      <a href="#about" class="btn-outline">Learn More</a>
-    </div>
-    <div class="hero-stats">
-      <div class="h-stat"><span class="n">92M</span><span class="l">tons textile waste / yr</span></div>
-      <div class="h-stat"><span class="n">0%</span><span class="l">landfill from our garments</span></div>
-      <div class="h-stat"><span class="n">2×</span><span class="l">free items when card full</span></div>
-    </div>
-  </div>
-</section>
+<!-- ═══════════════════════════════════ HOME PAGE ═══════════════════════════════════ -->
+<div id="page-home" class="page active">
 
-<!-- ABOUT -->
-<section id="about">
-  <div class="about-illustration reveal">
-    <svg class="about-illo-svg" viewBox="0 0 220 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Hanger -->
-      <path d="M110 30 Q110 18 124 18 Q138 18 138 30" stroke="#4a6741" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      <line x1="110" y1="30" x2="40" y2="80" stroke="#4a6741" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="110" y1="30" x2="180" y2="80" stroke="#4a6741" stroke-width="2.5" stroke-linecap="round"/>
-      <!-- Shirt body -->
-      <path d="M40 80 L50 74 L80 90 L80 160 L140 160 L140 90 L170 74 L180 80 L160 92 L160 165 Q160 170 155 170 L65 170 Q60 170 60 165 L60 92 Z" fill="#c8dbc2" stroke="#4a6741" stroke-width="1.5"/>
-      <!-- Recycling arrows on shirt -->
-      <path d="M95 120 Q110 108 125 120 Q115 125 110 130 Q105 125 95 120Z" fill="#4a6741" opacity=".5"/>
-      <path d="M95 135 Q110 147 125 135 Q115 130 110 125 Q105 130 95 135Z" fill="#4a6741" opacity=".5"/>
-      <!-- Leaf -->
-      <path d="M158 45 Q175 30 178 50 Q168 60 158 45Z" fill="#7a9e6e" stroke="#4a6741" stroke-width="1"/>
-      <line x1="158" y1="45" x2="172" y2="42" stroke="#4a6741" stroke-width="1"/>
-      <!-- Stars/sparkles -->
-      <text x="28" y="65" font-size="14" fill="#b05e3a">✦</text>
-      <text x="185" y="55" font-size="10" fill="#b05e3a">✦</text>
-      <text x="170" y="175" font-size="12" fill="#7a9e6e">✦</text>
-    </svg>
-    <p class="about-illo-caption">"Every garment deserves<br/>a second life."</p>
-    <div class="pill-row" style="justify-content:center">
-      <span class="pill">♻️ Upcycled</span>
-      <span class="pill">🌿 Eco-friendly</span>
-      <span class="pill">💚 Circular</span>
-    </div>
-  </div>
-
-  <div class="reveal">
-    <div class="sec-label">Our Story</div>
-    <h2 class="sec-title">Built on the belief that fashion can be <em>responsible</em></h2>
-    <p class="sec-body" style="margin-bottom:1.2rem">Every year, millions of tons of clothing end up in landfills — contributing to pollution, wasted resources, and unnecessary damage. We aim to change that by giving unwanted clothing a second life.</p>
-    <p class="sec-body" style="margin-bottom:1.2rem">Customers donate clothes they no longer wear. Our team carefully collects, sorts, and transforms them into unique, high-quality items through creative redesign, repair, and upcycling — creating fashionable new pieces while reducing textile waste.</p>
-    <p class="sec-body">Our mission is to promote a circular fashion economy where clothing remains in use for as long as possible, reducing the demand for new fabric production and all the water, energy, and emissions that come with it.</p>
-    <br/><br/>
-    <a href="#how" class="btn-moss">See How It Works</a>
-  </div>
-</section>
-
-<!-- STATS -->
-<div class="stats-row reveal">
-  <div class="s-tile"><span class="big">100%</span><div class="lbl">Upcycled Materials</div></div>
-  <div class="s-tile"><span class="big">↓60%</span><div class="lbl">Carbon Footprint Reduced</div></div>
-  <div class="s-tile"><span class="big">∞</span><div class="lbl">Circular Fashion Cycle</div></div>
-  <div class="s-tile"><span class="big">🌿</span><div class="lbl">Community Rewards</div></div>
-</div>
-
-<!-- HOW IT WORKS -->
-<section id="how">
-  <div class="how-top reveal">
-    <div class="sec-label" style="justify-content:center">The Process</div>
-    <h2 class="sec-title" style="text-align:center">How it works</h2>
-    <p class="sec-body" style="text-align:center">From your closet to someone else's — a four-step journey that keeps clothing out of landfills and rewards you along the way.</p>
-  </div>
-  <div class="steps">
-    <div class="step-card reveal">
-      <div class="step-num">1</div>
-      <div class="step-icon">👕</div>
-      <h3>Donate Unwanted Clothing</h3>
-      <p>Bring in clothes you no longer use. Any style, any size — if you're done with it, we'll find it a new home.</p>
-    </div>
-    <div class="step-card reveal" style="transition-delay:.1s">
-      <div class="step-num">2</div>
-      <div class="step-icon">✂️</div>
-      <h3>Upcycling Process</h3>
-      <p>Our team redesigns and repurposes your garments into new, modern clothing using creative, thoughtful techniques.</p>
-    </div>
-    <div class="step-card reveal" style="transition-delay:.2s">
-      <div class="step-num">3</div>
-      <div class="step-icon">🛍️</div>
-      <h3>Sustainable Shopping</h3>
-      <p>Browse our collection of newly created clothing — eco-friendly fashion with a story behind every piece.</p>
-    </div>
-    <div class="step-card reveal" style="transition-delay:.3s">
-      <div class="step-num">4</div>
-      <div class="step-icon">🎁</div>
-      <h3>Reward Program</h3>
-      <p>Earn a stamp every time you donate. Fill your Sustainability Token Card and redeem 2 free items!</p>
-    </div>
-  </div>
-</section>
-
-<!-- REWARD -->
-<section id="reward">
-  <div class="reward-wrap">
-    <div class="reveal">
-      <div class="sec-label">Loyalty Rewards</div>
-      <h2 class="sec-title">Your Sustainability<br/><em>Token Card</em></h2>
-      <p class="sec-body" style="margin-bottom:1.4rem">Every time you donate clothing, you earn a stamp. Collect all 10 stamps and redeem your full card for <strong>2 free clothing items</strong> from our collection — our way of saying thank you for making a difference.</p>
-      <p class="sec-body">Try the interactive demo on the right — click the button to add a donation stamp and watch your card fill up! 🌿</p>
-    </div>
-    <div class="reveal">
-      <div class="token-card">
-        <div class="tc-header">
-          <div>
-            <div class="tc-title">ReThread Rewards</div>
-            <div class="tc-sub">Collect 10 stamps → 2 free items</div>
-          </div>
-          <div class="tc-leaf">🌿</div>
-        </div>
-        <div class="stamps" id="stampsGrid"></div>
-        <div class="prog-row">
-          <span class="prog-label" id="progText">0 / 10</span>
-          <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
-          <span class="prog-label">Full!</span>
-        </div>
-        <div class="reward-msg" id="rewardMsg">🎉 Card complete! Redeem your 2 free items in-store.</div>
-        <button class="tc-btn" id="tcBtn">+ Add Donation Stamp</button>
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg-circle"></div>
+    <div class="hero-bg-circle2"></div>
+    <div class="hero-content">
+      <div class="hero-badge">🌱 Sustainable Fashion Movement</div>
+      <h1>Fashion that<br/>gives back to<br/><em>the Earth</em></h1>
+      <p class="hero-sub">We transform unwanted clothing into unique, high-quality pieces — reducing textile waste and building a circular fashion economy, one garment at a time.</p>
+      <div class="hero-btns">
+        <button class="btn-moss" onclick="showPage('donate')">📸 Donate a Garment</button>
+        <button class="btn-outline" onclick="scrollTo_('#about')">Learn More</button>
+      </div>
+      <div class="hero-stats">
+        <div class="h-stat"><span class="n">92M</span><span class="l">tons textile waste / yr</span></div>
+        <div class="h-stat"><span class="n" id="heroCount">0</span><span class="l">items donated so far</span></div>
+        <div class="h-stat"><span class="n">2×</span><span class="l">free items when card full</span></div>
       </div>
     </div>
   </div>
-</section>
 
-<!-- WHY -->
-<section id="why">
-  <div class="reveal" style="max-width:580px">
-    <div class="sec-label">Our Promise</div>
-    <h2 class="sec-title">Why choose <em>ReThread?</em></h2>
-    <p class="sec-body">We're more than a clothing store — we're a community. Every purchase and donation directly helps our planet.</p>
-  </div>
-  <div class="why-grid">
-    <div class="why-card reveal">
-      <span class="why-icon">♻️</span>
-      <h3>Reduces Textile Waste</h3>
-      <p>We keep clothing out of landfills by giving every garment a second chance through creative upcycling.</p>
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-illustration reveal">
+      <svg class="about-illo-svg" viewBox="0 0 220 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M110 30 Q110 18 124 18 Q138 18 138 30" stroke="#4a6741" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <line x1="110" y1="30" x2="40" y2="80" stroke="#4a6741" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="110" y1="30" x2="180" y2="80" stroke="#4a6741" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M40 80 L50 74 L80 90 L80 160 L140 160 L140 90 L170 74 L180 80 L160 92 L160 165 Q160 170 155 170 L65 170 Q60 170 60 165 L60 92 Z" fill="#c8dbc2" stroke="#4a6741" stroke-width="1.5"/>
+        <path d="M95 120 Q110 108 125 120 Q115 125 110 130 Q105 125 95 120Z" fill="#4a6741" opacity=".5"/>
+        <path d="M95 135 Q110 147 125 135 Q115 130 110 125 Q105 130 95 135Z" fill="#4a6741" opacity=".5"/>
+        <path d="M158 45 Q175 30 178 50 Q168 60 158 45Z" fill="#7a9e6e" stroke="#4a6741" stroke-width="1"/>
+        <text x="28" y="65" font-size="14" fill="#b05e3a">✦</text>
+        <text x="185" y="55" font-size="10" fill="#b05e3a">✦</text>
+        <text x="170" y="175" font-size="12" fill="#7a9e6e">✦</text>
+      </svg>
+      <p class="about-illo-caption">"Every garment deserves<br/>a second life."</p>
+      <div class="pill-row">
+        <span class="pill">♻️ Upcycled</span>
+        <span class="pill">🌿 Eco-friendly</span>
+        <span class="pill">💚 Circular</span>
+      </div>
     </div>
-    <div class="why-card reveal" style="transition-delay:.1s">
-      <span class="why-icon">🌿</span>
-      <h3>Ethical Fashion Practices</h3>
-      <p>Every piece is produced sustainably and ethically, with deep respect for the environment.</p>
+    <div class="reveal">
+      <div class="sec-label">Our Story</div>
+      <h2 class="sec-title">Built on the belief that fashion can be <em>responsible</em></h2>
+      <p class="sec-body" style="margin-bottom:1.2rem">Every year, millions of tons of clothing end up in landfills — contributing to pollution, wasted resources, and unnecessary damage. We aim to change that by giving unwanted clothing a second life.</p>
+      <p class="sec-body" style="margin-bottom:1.2rem">Customers donate clothes they no longer wear. Our team carefully collects, sorts, and transforms them into unique, high-quality items through creative redesign, repair, and upcycling — creating fashionable new pieces while reducing textile waste.</p>
+      <p class="sec-body">Our mission is to promote a circular fashion economy where clothing remains in use for as long as possible, reducing demand for new fabric production and all the water, energy, and emissions that come with it.</p>
+      <br/><br/>
+      <button class="btn-moss" onclick="showPage('donate')">📸 Start Your Donation</button>
     </div>
-    <div class="why-card reveal" style="transition-delay:.2s">
-      <span class="why-icon">💧</span>
-      <h3>Conserves Natural Resources</h3>
-      <p>Reusing materials lowers water use, energy consumption, and carbon emissions from new production.</p>
-    </div>
-    <div class="why-card reveal" style="transition-delay:.3s">
-      <span class="why-icon">🤝</span>
-      <h3>Community Participation</h3>
-      <p>We encourage everyone to take part in environmental responsibility — every donation counts.</p>
-    </div>
-    <div class="why-card reveal" style="transition-delay:.4s">
-      <span class="why-icon">🏆</span>
-      <h3>Rewards Sustainable Choices</h3>
-      <p>Our Token Card turns good habits into real rewards — free clothing for caring about the planet.</p>
-    </div>
-    <div class="why-card reveal" style="transition-delay:.5s;background:var(--light-sage);border-color:var(--sage)">
-      <span class="why-icon">✨</span>
-      <h3>One Garment at a Time</h3>
-      <p>Together we can make fashion more sustainable — every single piece of clothing makes a difference.</p>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- VISION -->
-<section id="vision">
-  <div class="vision-inner reveal">
-    <div class="sec-label" style="justify-content:center;color:rgba(255,255,255,.5)">Our Vision</div>
-    <blockquote class="vis-quote">"We envision a future where fashion is part of the solution rather than part of the problem."</blockquote>
-    <div class="vis-divider"><span>🌱</span></div>
-    <p class="vis-body">By turning old clothes into new opportunities, we help create a cleaner environment, reduce waste, and inspire more sustainable consumer habits. Every donation, purchase, and recycled garment contributes to a greener future for our communities and planet.</p>
-    <p class="vis-body">Together, we can make fashion more sustainable — one piece of clothing at a time.</p>
-    <br/>
-    <a href="#how" class="btn-white">Join the Movement</a>
+  <!-- STATS -->
+  <div class="stats-row reveal">
+    <div class="s-tile"><span class="big">100%</span><div class="lbl">Upcycled Materials</div></div>
+    <div class="s-tile"><span class="big">↓60%</span><div class="lbl">Carbon Footprint Reduced</div></div>
+    <div class="s-tile"><span class="big">∞</span><div class="lbl">Circular Fashion Cycle</div></div>
+    <div class="s-tile"><span class="big">🌿</span><div class="lbl">Community Rewards</div></div>
   </div>
-</section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-grid">
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="how-top reveal">
+      <div class="sec-label" style="justify-content:center">The Process</div>
+      <h2 class="sec-title" style="text-align:center">How it works</h2>
+      <p class="sec-body" style="text-align:center">From your closet to someone else's — a four-step journey that keeps clothing out of landfills and rewards you along the way.</p>
+    </div>
+    <div class="steps">
+      <div class="step-card reveal" onclick="showPage('donate')">
+        <div class="step-num">1</div>
+        <div class="step-icon">📸</div>
+        <h3>Photograph &amp; Donate</h3>
+        <p>Snap a photo of your unwanted clothes right here, fill in a few details, and submit your donation. <strong style="color:var(--moss)">Click to start →</strong></p>
+      </div>
+      <div class="step-card reveal" style="transition-delay:.1s">
+        <div class="step-num">2</div>
+        <div class="step-icon">✂️</div>
+        <h3>Upcycling Process</h3>
+        <p>Our team redesigns and repurposes your garments into new, modern clothing using creative, thoughtful techniques.</p>
+      </div>
+      <div class="step-card reveal" style="transition-delay:.2s">
+        <div class="step-num">3</div>
+        <div class="step-icon">🛍️</div>
+        <h3>Sustainable Shopping</h3>
+        <p>Browse our collection of newly created clothing — eco-friendly fashion with a story behind every piece.</p>
+      </div>
+      <div class="step-card reveal" onclick="scrollTo_('#reward')" style="transition-delay:.3s">
+        <div class="step-num">4</div>
+        <div class="step-icon">🎁</div>
+        <h3>Earn Your Reward</h3>
+        <p>Each donation earns you a stamp. Fill your card, redeem 2 free items. <strong style="color:var(--moss)">See your card →</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- REWARD -->
+  <section id="reward" style="background:var(--warm)">
+    <div class="reward-wrap">
+      <div class="reveal">
+        <div class="sec-label">Loyalty Rewards</div>
+        <h2 class="sec-title">Your Sustainability<br/><em>Token Card</em></h2>
+        <p class="sec-body" style="margin-bottom:1.4rem">Every time you donate clothing, you earn a stamp automatically. Collect all 10 stamps and redeem your full card for <strong>2 free clothing items</strong> from our collection.</p>
+        <p class="sec-body" style="margin-bottom:2rem">Head to the donate page to add items — each confirmed donation earns a 🌿 stamp on your card here!</p>
+        <button class="btn-moss" onclick="showPage('donate')">📸 Donate &amp; Earn Stamps</button>
+      </div>
+      <div class="reveal">
+        <div class="token-card">
+          <div class="tc-header">
+            <div>
+              <div class="tc-title">ReThread Rewards</div>
+              <div class="tc-sub" id="tcSubHome">Collect 10 stamps → 2 free items</div>
+            </div>
+            <div class="tc-leaf">🌿</div>
+          </div>
+          <div class="stamps" id="stampsHome"></div>
+          <div class="prog-row">
+            <span class="prog-label" id="progTextHome">0 / 10</span>
+            <div class="prog-bar"><div class="prog-fill" id="progFillHome" style="width:0%"></div></div>
+            <span class="prog-label">Full!</span>
+          </div>
+          <div class="reward-msg" id="rewardMsgHome">🎉 Card complete! Redeem your 2 free items in-store.</div>
+          <button class="tc-donate-btn" onclick="showPage('donate')">📸 Donate to Earn a Stamp</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section id="why">
+    <div class="reveal" style="max-width:580px">
+      <div class="sec-label">Our Promise</div>
+      <h2 class="sec-title">Why choose <em>ReThread?</em></h2>
+      <p class="sec-body">We're more than a clothing store — we're a community. Every purchase and donation directly helps our planet.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal"><span class="why-icon">♻️</span><h3>Reduces Textile Waste</h3><p>We keep clothing out of landfills by giving every garment a second chance through creative upcycling.</p></div>
+      <div class="why-card reveal" style="transition-delay:.1s"><span class="why-icon">🌿</span><h3>Ethical Fashion Practices</h3><p>Every piece is produced sustainably and ethically, with deep respect for the environment.</p></div>
+      <div class="why-card reveal" style="transition-delay:.2s"><span class="why-icon">💧</span><h3>Conserves Natural Resources</h3><p>Reusing materials lowers water use, energy consumption, and carbon emissions from new production.</p></div>
+      <div class="why-card reveal" style="transition-delay:.3s"><span class="why-icon">🤝</span><h3>Community Participation</h3><p>We encourage everyone to take part in environmental responsibility — every donation counts.</p></div>
+      <div class="why-card reveal" style="transition-delay:.4s"><span class="why-icon">🏆</span><h3>Rewards Sustainable Choices</h3><p>Our Token Card turns good habits into real rewards — free clothing for caring about the planet.</p></div>
+      <div class="why-card reveal" style="transition-delay:.5s;background:var(--light-sage);border-color:var(--sage)"><span class="why-icon">✨</span><h3>One Garment at a Time</h3><p>Together we can make fashion more sustainable — every single piece of clothing makes a difference.</p></div>
+    </div>
+  </section>
+
+  <!-- VISION -->
+  <section id="vision">
+    <div class="vision-inner reveal">
+      <div class="sec-label" style="justify-content:center;color:rgba(255,255,255,.5)">Our Vision</div>
+      <blockquote class="vis-quote">"We envision a future where fashion is part of the solution rather than part of the problem."</blockquote>
+      <div class="vis-divider"><span>🌱</span></div>
+      <p class="vis-body">By turning old clothes into new opportunities, we help create a cleaner environment, reduce waste, and inspire more sustainable consumer habits. Every donation, purchase, and recycled garment contributes to a greener future for our communities and planet.</p>
+      <p class="vis-body">Together, we can make fashion more sustainable — one piece of clothing at a time.</p>
+      <br/>
+      <button class="btn-white" onclick="showPage('donate')">📸 Start Donating Today</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <div class="f-logo" onclick="showPage('home')">Re<span>Thread</span></div>
+        <p class="f-tagline">Fashion that gives back. We transform unwanted clothing into beautiful, sustainable pieces.</p>
+      </div>
+      <div class="f-col">
+        <h5>Navigate</h5>
+        <ul>
+          <li><a onclick="scrollTo_('#about')">About Us</a></li>
+          <li><a onclick="scrollTo_('#how')">How It Works</a></li>
+          <li><a onclick="scrollTo_('#reward')">My Reward Card</a></li>
+          <li><a onclick="scrollTo_('#why')">Why Us</a></li>
+          <li><a onclick="scrollTo_('#vision')">Vision</a></li>
+        </ul>
+      </div>
+      <div class="f-col">
+        <h5>Get Involved</h5>
+        <ul>
+          <li><a onclick="showPage('donate')">📸 Donate Clothing</a></li>
+          <li><a onclick="showPage('donate');scrollToBasket()">🧺 View Basket</a></li>
+          <li><a onclick="scrollTo_('#reward')">🌿 Token Card</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 ReThread. All rights reserved.</span>
+      <span>Made with 🌿 for the planet</span>
+    </div>
+  </footer>
+</div><!-- /page-home -->
+
+<!-- ═══════════════════════════════════ DONATE PAGE ═══════════════════════════════════ -->
+<div id="page-donate" class="page">
+  <div style="background:var(--warm);padding:3rem 5% 2rem;border-bottom:2px solid var(--tan)">
+    <button style="background:none;border:none;color:var(--muted);font-size:.88rem;font-family:'Nunito',sans-serif;cursor:pointer;margin-bottom:1rem;font-weight:600" onclick="showPage('home')">← Back to Home</button>
+    <div class="sec-label">Step 1 of 4</div>
+    <h1 style="font-family:'Lora',serif;font-size:2rem;font-weight:600;color:var(--text)">📸 Photograph &amp; Donate</h1>
+    <p style="font-size:.96rem;color:var(--muted);font-weight:300;margin-top:.5rem">Take or upload a photo of your clothing, add some details, and add it to your donation basket.</p>
+  </div>
+
+  <div class="donate-layout">
+    <!-- LEFT: Photo + Form -->
     <div>
-      <div class="f-logo">Re<span>Thread</span></div>
-      <p class="f-tagline">Fashion that gives back. We transform unwanted clothing into beautiful, sustainable pieces.</p>
+      <div class="donate-panel">
+        <h2>Add a Garment</h2>
+        <p class="sub">Snap a photo or upload from your device</p>
+
+        <!-- Camera / Upload area -->
+        <div class="camera-area" id="cameraArea" onclick="triggerUpload()">
+          <div class="cam-icon">📷</div>
+          <div class="cam-hint">Tap to upload a photo<br/><span style="font-size:.74rem;opacity:.7">or use your camera below</span></div>
+          <div class="cam-overlay">📂 Choose a different photo</div>
+        </div>
+        <input type="file" id="fileInput" accept="image/*" onchange="handleFile(event)"/>
+        <canvas id="snapCanvas" style="display:none"></canvas>
+
+        <div class="cam-controls">
+          <button class="cam-btn" onclick="triggerUpload()" id="btnUpload">📁 Upload Photo</button>
+          <button class="cam-btn" onclick="openCamera()" id="btnCamera">📷 Use Camera</button>
+          <button class="cam-btn" id="btnClear" onclick="clearPhoto()" style="display:none">✕ Clear</button>
+        </div>
+
+        <div class="item-form">
+          <div class="form-row">
+            <div class="form-field">
+              <label>Item Name</label>
+              <input type="text" id="itemName" placeholder="e.g. Blue denim jacket"/>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>Category</label>
+              <select id="itemCat">
+                <option value="">Select...</option>
+                <option>Tops &amp; T-Shirts</option>
+                <option>Jackets &amp; Coats</option>
+                <option>Trousers &amp; Jeans</option>
+                <option>Dresses &amp; Skirts</option>
+                <option>Shoes &amp; Boots</option>
+                <option>Accessories</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label>Condition</label>
+              <select id="itemCond">
+                <option value="">Select...</option>
+                <option>Like New</option>
+                <option>Good</option>
+                <option>Fair</option>
+                <option>Needs Repair</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-field">
+            <label>Notes (optional)</label>
+            <textarea id="itemNote" rows="2" placeholder="Any details about the item..."></textarea>
+          </div>
+          <button class="add-item-btn" id="addItemBtn" onclick="addToBasket()" disabled>+ Add to Donation Basket</button>
+        </div>
+      </div>
     </div>
-    <div class="f-col">
-      <h5>Navigate</h5>
-      <ul>
-        <li><a href="#about">About Us</a></li>
-        <li><a href="#how">How It Works</a></li>
-        <li><a href="#reward">Rewards</a></li>
-        <li><a href="#why">Why Us</a></li>
-        <li><a href="#vision">Vision</a></li>
-      </ul>
-    </div>
-    <div class="f-col">
-      <h5>Get Involved</h5>
-      <ul>
-        <li><a href="#">Donate Clothing</a></li>
-        <li><a href="#">Shop Collection</a></li>
-        <li><a href="#">Token Card</a></li>
-        <li><a href="#">Partner With Us</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
+
+    <!-- RIGHT: Basket -->
+    <div id="basketPanel">
+      <div class="donate-panel basket-panel">
+        <h2>🧺 Your Donation Basket</h2>
+        <p class="sub">Items ready to donate</p>
+
+        <div id="basketEmpty" class="basket-empty">
+          <span class="empty-icon">🧺</span>
+          No items yet — add your first garment to the left!
+        </div>
+
+        <div id="basketList" class="basket-list" style="display:none"></div>
+
+        <div id="basketSummary" class="basket-summary" style="display:none">
+          <div class="bs-row"><span>Items in basket</span><span id="bsCount">0</span></div>
+          <div class="bs-row"><span>Stamps you'll earn</span><span id="bsStamps">🌿 ×0</span></div>
+          <div class="bs-row"><span style="color:var(--moss);font-weight:700">Total stamps after</span><span id="bsTotal" style="color:var(--moss);font-weight:700">0 / 10</span></div>
+        </div>
+
+        <button class="submit-btn" id="submitBtn" onclick="submitDonation()" disabled>
+          Submit Donation &amp; Earn Stamps 🌿
+        </button>
+      </div>
+
+      <!-- Mini token card in donate page -->
+      <div class="donate-panel" style="margin-top:1.5rem">
+        <div class="tc-header" style="margin-bottom:1rem">
+          <div><div class="tc-title" style="font-size:1rem">Your Progress</div><div class="tc-sub" id="tcSubDonate">0 / 10 stamps</div></div>
+          <div style="font-size:1.4rem">🌿</div>
+        </div>
+        <div class="stamps" id="stampsDonate" style="gap:.35rem"></div>
+        <div class="prog-row" style="margin-top:.8rem;margin-bottom:0">
+          <div class="prog-bar"><div class="prog-fill" id="progFillDonate" style="width:0%"></div></div>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="footer-bottom">
-    <span>© 2024 ReThread. All rights reserved.</span>
-    <span>Made with 🌿 for the planet</span>
+</div><!-- /page-donate -->
+
+<!-- CAMERA MODAL -->
+<div id="cameraModal">
+  <div class="cam-modal-inner">
+    <h3>📷 Take a Photo</h3>
+    <video id="liveVideo" autoplay playsinline muted></video>
+    <div class="cam-modal-btns">
+      <button class="snap-btn" onclick="snapPhoto()">📸 Take Photo</button>
+      <button class="cancel-btn" onclick="closeCamera()">Cancel</button>
+    </div>
   </div>
-</footer>
+</div>
 
 <script>
-  const TOTAL = 10;
-  let stamps = 0;
+/* ════════════ STATE ════════════ */
+let stamps = 0;
+const TOTAL = 10;
+let basket = [];
+let currentPhotoDataUrl = null;
+let cameraStream = null;
+let formValid = false;
 
-  function buildStamps() {
-    const g = document.getElementById('stampsGrid');
-    g.innerHTML = '';
-    for (let i = 0; i < TOTAL; i++) {
-      const s = document.createElement('div');
-      s.className = 'stamp' + (i < stamps ? ' filled' : '');
-      s.textContent = i < stamps ? '🌿' : '';
-      g.appendChild(s);
-    }
+/* ════════════ PAGE ROUTING ════════════ */
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  window.scrollTo(0, 0);
+  // Update nav active state
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  const nl = document.getElementById('nl-' + name);
+  if (nl) nl.classList.add('active');
+  if (name === 'home') triggerReveal();
+}
+
+function goTo(page, sectionId) {
+  showPage(page);
+  setTimeout(() => scrollTo_('#' + sectionId), 80);
+}
+
+function scrollTo_(sel) {
+  const el = document.querySelector(sel);
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
+}
+
+function scrollToBasket() {
+  setTimeout(() => {
+    const bp = document.getElementById('basketPanel');
+    if (bp) bp.scrollIntoView({ behavior: 'smooth' });
+  }, 100);
+}
+
+/* ════════════ CAMERA / FILE ════════════ */
+function triggerUpload() { document.getElementById('fileInput').click(); }
+
+function handleFile(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => setPhoto(ev.target.result);
+  reader.readAsDataURL(file);
+  e.target.value = '';
+}
+
+function setPhoto(dataUrl) {
+  currentPhotoDataUrl = dataUrl;
+  const area = document.getElementById('cameraArea');
+  area.innerHTML = `<img class="preview" src="${dataUrl}" alt="preview"/><div class="cam-overlay">📂 Change photo</div>`;
+  area.classList.add('has-image');
+  area.onclick = triggerUpload;
+  document.getElementById('btnClear').style.display = '';
+  checkForm();
+}
+
+function clearPhoto() {
+  currentPhotoDataUrl = null;
+  const area = document.getElementById('cameraArea');
+  area.innerHTML = `<div class="cam-icon">📷</div><div class="cam-hint">Tap to upload a photo<br/><span style="font-size:.74rem;opacity:.7">or use your camera below</span></div><div class="cam-overlay">📂 Choose a different photo</div>`;
+  area.classList.remove('has-image');
+  area.onclick = triggerUpload;
+  document.getElementById('btnClear').style.display = 'none';
+  checkForm();
+}
+
+async function openCamera() {
+  try {
+    cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
+    document.getElementById('liveVideo').srcObject = cameraStream;
+    document.getElementById('cameraModal').classList.add('open');
+  } catch(err) {
+    showToast('Camera not available — please upload a photo instead 📁');
+  }
+}
+
+function snapPhoto() {
+  const video = document.getElementById('liveVideo');
+  const canvas = document.getElementById('snapCanvas');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas.getContext('2d').drawImage(video, 0, 0);
+  setPhoto(canvas.toDataURL('image/jpeg', 0.85));
+  closeCamera();
+}
+
+function closeCamera() {
+  if (cameraStream) { cameraStream.getTracks().forEach(t => t.stop()); cameraStream = null; }
+  document.getElementById('cameraModal').classList.remove('open');
+}
+
+/* ════════════ FORM VALIDATION ════════════ */
+['itemName','itemCat','itemCond'].forEach(id => {
+  document.getElementById(id).addEventListener('input', checkForm);
+  document.getElementById(id).addEventListener('change', checkForm);
+});
+
+function checkForm() {
+  const ok = currentPhotoDataUrl &&
+    document.getElementById('itemName').value.trim() &&
+    document.getElementById('itemCat').value &&
+    document.getElementById('itemCond').value;
+  document.getElementById('addItemBtn').disabled = !ok;
+}
+
+/* ════════════ BASKET ════════════ */
+function addToBasket() {
+  const item = {
+    id: Date.now(),
+    photo: currentPhotoDataUrl,
+    name: document.getElementById('itemName').value.trim(),
+    cat: document.getElementById('itemCat').value,
+    cond: document.getElementById('itemCond').value,
+    note: document.getElementById('itemNote').value.trim()
+  };
+  basket.push(item);
+  renderBasket();
+  // Reset form
+  clearPhoto();
+  document.getElementById('itemName').value = '';
+  document.getElementById('itemCat').value = '';
+  document.getElementById('itemCond').value = '';
+  document.getElementById('itemNote').value = '';
+  checkForm();
+  showToast('🧺 ' + item.name + ' added to basket!');
+  updateBasketNav();
+}
+
+function removeFromBasket(id) {
+  basket = basket.filter(i => i.id !== id);
+  renderBasket();
+  updateBasketNav();
+}
+
+function renderBasket() {
+  const list = document.getElementById('basketList');
+  const empty = document.getElementById('basketEmpty');
+  const summary = document.getElementById('basketSummary');
+  const submitBtn = document.getElementById('submitBtn');
+
+  if (basket.length === 0) {
+    empty.style.display = '';
+    list.style.display = 'none';
+    summary.style.display = 'none';
+    submitBtn.disabled = true;
+    return;
   }
 
-  function update() {
-    document.getElementById('progText').textContent = stamps + ' / ' + TOTAL;
-    document.getElementById('progFill').style.width = (stamps / TOTAL * 100) + '%';
-    const msg = document.getElementById('rewardMsg');
-    const btn = document.getElementById('tcBtn');
-    if (stamps >= TOTAL) {
-      msg.classList.add('show');
-      btn.textContent = '✓ Complete — Reset Card';
-      btn.onclick = () => { stamps = 0; buildStamps(); update(); btn.onclick = add; };
-    } else {
-      msg.classList.remove('show');
-      btn.textContent = '+ Add Donation Stamp';
-    }
+  empty.style.display = 'none';
+  list.style.display = '';
+  summary.style.display = '';
+  submitBtn.disabled = false;
+
+  list.innerHTML = basket.map(item => `
+    <div class="basket-item">
+      <div class="bi-thumb">
+        ${item.photo ? `<img src="${item.photo}" alt="${item.name}"/>` : '👕'}
+      </div>
+      <div class="bi-info">
+        <div class="bi-name">${item.name}</div>
+        <div class="bi-meta">${item.cat} · ${item.cond}</div>
+      </div>
+      <button class="bi-remove" onclick="removeFromBasket(${item.id})" title="Remove">✕</button>
+    </div>
+  `).join('');
+
+  const newTotal = Math.min(stamps + basket.length, TOTAL);
+  document.getElementById('bsCount').textContent = basket.length;
+  document.getElementById('bsStamps').textContent = '🌿 ×' + basket.length;
+  document.getElementById('bsTotal').textContent = newTotal + ' / ' + TOTAL;
+}
+
+function updateBasketNav() {
+  const count = document.getElementById('basketCount');
+  if (basket.length > 0) {
+    count.textContent = basket.length;
+    count.classList.remove('hidden');
+  } else {
+    count.classList.add('hidden');
   }
+}
 
-  function add() { if (stamps < TOTAL) { stamps++; buildStamps(); update(); } }
-  document.getElementById('tcBtn').onclick = add;
-  buildStamps(); update();
+/* ════════════ SUBMIT DONATION ════════════ */
+function submitDonation() {
+  if (basket.length === 0) return;
+  const earned = basket.length;
+  stamps = Math.min(stamps + earned, TOTAL);
+  basket = [];
+  renderBasket();
+  updateBasketNav();
+  updateAllCards();
+  updateHeroCount();
 
+  showToast('🎉 Donation submitted! You earned ' + earned + ' stamp' + (earned > 1 ? 's' : '') + '!');
+
+  // Switch back to home reward section after short delay
+  setTimeout(() => {
+    showPage('home');
+    setTimeout(() => scrollTo_('#reward'), 100);
+  }, 1800);
+}
+
+/* ════════════ TOKEN CARD (shared state) ════════════ */
+function buildCard(gridId) {
+  const g = document.getElementById(gridId);
+  if (!g) return;
+  g.innerHTML = '';
+  for (let i = 0; i < TOTAL; i++) {
+    const s = document.createElement('div');
+    s.className = 'stamp' + (i < stamps ? ' filled' : '');
+    s.textContent = i < stamps ? '🌿' : '';
+    g.appendChild(s);
+  }
+}
+
+function updateAllCards() {
+  ['stampsHome','stampsDonate'].forEach(buildCard);
+
+  const pct = (stamps / TOTAL * 100) + '%';
+  ['progFillHome','progFillDonate'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.width = pct;
+  });
+
+  const label = stamps + ' / ' + TOTAL;
+  const phome = document.getElementById('progTextHome');
+  const pdonate = document.getElementById('tcSubDonate');
+  if (phome) phome.textContent = label;
+  if (pdonate) pdonate.textContent = label + ' stamps';
+
+  const rewardMsgHome = document.getElementById('rewardMsgHome');
+  if (rewardMsgHome) rewardMsgHome.classList.toggle('show', stamps >= TOTAL);
+}
+
+function updateHeroCount() {
+  // Running total of all donated items
+  const el = document.getElementById('heroCount');
+  if (!el) return;
+  let total = parseInt(el.getAttribute('data-total') || '0');
+  el.setAttribute('data-total', total + 1);
+  el.textContent = total + 1;
+}
+
+/* ════════════ TOAST ════════════ */
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+/* ════════════ SCROLL REVEAL ════════════ */
+function triggerReveal() {
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
   }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  document.querySelectorAll('#page-home .reveal').forEach(el => {
+    el.classList.remove('visible');
+    obs.observe(el);
+  });
+}
+
+/* ════════════ INIT ════════════ */
+updateAllCards();
+triggerReveal();
 </script>
 </body>
 </html>
